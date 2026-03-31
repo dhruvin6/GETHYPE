@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/mylogo.png">
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>GET HYPE</title>
+    <style>
+      .mylogo {
+        height: 50px;
+      }
+      .col-lg-6 {
+  width: 50%; /* Adjust width as needed */
+  margin: 0 auto; /* Center the form horizontally */
+}
+
+form.table {
+  padding: 20px; /* Add padding to the form */
+  border: 1px solid #ccc; /* Add border to the form */
+  border-radius: 5px; /* Add border radius */
+}
+
+form.table span {
+  display: block; /* Display spans as blocks */
+  margin-bottom: 5px; /* Add some space between spans */
+}
+
+form.table input[type="text"],
+form.table textarea {
+  width: 100%; /* Make input fields and textarea full width */
+  padding: 10px; /* Add padding to input fields and textarea */
+  margin-bottom: 10px; /* Add some space between input fields */
+  border: 1px solid #ccc; /* Add border to input fields and textarea */
+  border-radius: 3px; /* Add border radius */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+form.table input[type="text"]:focus,
+form.table textarea:focus {
+  outline: none; /* Remove outline on focus */
+  border-color: #007bff; /* Change border color on focus */
+}
+
+form.table textarea {
+  resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+form.table input[type="submit"] {
+  background-color: #007bff; /* Set background color for submit button */
+  color: #fff; /* Set text color for submit button */
+  border: none; /* Remove border from submit button */
+  border-radius: 3px; /* Add border radius to submit button */
+  padding: 10px 20px; /* Add padding to submit button */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s; /* Add transition effect for background color change */
+}
+
+form.table input[type="submit"]:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
+
+    </style>
+
+    <!-- Additional CSS Files -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="assets/css/templatemo-hexashop.css" />
+
+    <link rel="stylesheet" href="assets/css/owl-carousel.css" />
+
+    <link rel="stylesheet" href="assets/css/lightbox.css" />
+    <!--
+
+TemplateMo 571 Hexashop
+
+https://templatemo.com/tm-571-hexashop
+
+-->
+  </head>
+
+  <body>
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+      <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- ***** Header Area Start ***** -->
+    <div>
+      <header class="header-area header-sticky">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <nav class="main-nav">
+                <!-- ***** Logo Start ***** -->
+                <a href="index.html" class="logo">
+                  <img src="assets/images/mylogo.png" class="mylogo" />
+                </a>
+                <!-- ***** Logo End ***** -->
+                <!-- ***** Menu Start ***** -->
+                <ul class="nav">
+                  <li class="scroll-to-section">
+                    <a href="index.html">Home</a>
+                  </li>
+                  <li><a href="products.html">Product</a></li>
+                  <li class="submenu">
+                    <a href="javascript:;">Menu</a>
+                    <ul>
+                      <li><a href="about.html">About Us</a></li>
+                      <li><a href="contact.html">Contact Us</a></li>
+                      <li class="scroll-to-section">
+                        <a href="#explore">Explore</a>
+                      </li>
+                    </ul>
+                  </li>
+                  
+                  <li><a href="addtocart.html">MyCart</a></li>
+                  <li class="scroll-to-section" id="loginListItem">
+                    <a href="login.html">Login</a>
+                  </li>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      const userToken = localStorage.getItem("userToken");
+                      if (userToken) {
+                        const loginListItem =
+                          document.getElementById("loginListItem");
+                        loginListItem.innerHTML = `<a href="profile.html">My Profile</a>`;
+                        loginListItem.href = "profile.html";
+                      }
+                    });
+                  </script>
+                </ul>
+                <a class="menu-trigger">
+                  <span>Menu</span>
+                </a>
+                <!-- ***** Menu End ***** -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+    <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <form class="table">
+                <span> NAME : </span>
+                <input type="text" name="Name" placeholder="Enter Your First Name" id="name">
+                </br>
+                <span> EMAIL : </span>
+                <input type="text" name="Email" placeholder="Enter Your Email Address" id="email">
+                </br>
+                <span> CONTACT : </span>
+                <input type="text" name="Contact" placeholder="Enter Your Contact" id="conatct">
+                </br>
+                <span> ADDRESS : </span>
+                <textarea name="Address" placeholder="Enter Your Address"></textarea>
+          </div>
+          <div class="col-lg-6">
+            Column
+          </div>
+        </div>
+      </div>
+    <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="first-item">
+                <div class="logo">
+                  <img
+                    src="assets/images/mylogo.png"
+                    alt="hexashop ecommerce templatemo" class="mylogo"/>
+                </div>
+                <ul>
+                  <li>
+                    <a href="#"> India - Gujarat, Valsad (396001) </a>
+                  </li>
+                  <li><a href="#">gethype0627@gmail.com</a></li>
+                  <li><a href="#">010-020-0340</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <h4>Shopping &amp; Categories</h4>
+              <ul>
+                <li><a href="products.html">Summer's Shopping</a></li>
+                <li><a href="products.html">Winter's Shopping</a></li>
+                
+              </ul>
+            </div>
+            <div class="col-lg-3">
+              <h4>Useful Links</h4>
+              <ul>
+                <li><a href="#">Homepage</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Help</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+            <div class="col-lg-3">
+              <h4>Help &amp; Information</h4>
+              <ul>
+                <li><a href="#">Help</a></li>
+                <li><a href="#">FAQ's</a></li>
+                <li><a href="#">Shipping</a></li>
+                
+              </ul>
+            </div>
+            <div class="col-lg-12">
+              <div class="under-footer">
+                <p>
+                  Copyright © 2024 GET HYPE Co., Ltd. All Rights Reserved.
+  
+                  <br />Design:
+                  <a
+                    href="#"
+                    target="_parent"
+                    >GET HYPE</a>
+                </p>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fa fa-pinterest"></i></a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+  
+      <!-- jQuery -->
+      <script src="assets/js/jquery-2.1.0.min.js"></script>
+  
+      <!-- Bootstrap -->
+      <script src="assets/js/popper.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+      <!-- Plugins -->
+      <script src="assets/js/owl-carousel.js"></script>
+      <script src="assets/js/accordions.js"></script>
+      <script src="assets/js/datepicker.js"></script>
+      <script src="assets/js/scrollreveal.min.js"></script>
+      <script src="assets/js/waypoints.min.js"></script>
+      <script src="assets/js/jquery.counterup.min.js"></script>
+      <script src="assets/js/imgfix.min.js"></script>
+      <script src="assets/js/slick.js"></script>
+      <script src="assets/js/lightbox.js"></script>
+      <script src="assets/js/isotope.js"></script>
+  
+      <!-- Global Init -->
+      <script src="assets/js/custom.js"></script>
+    </body>
+    </html>

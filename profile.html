@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/mylogo.png">
+  <title>Profile</title>
+</head>
+<body>
+  <h1>Welcome to Your Profile Page</h1>
+
+  <div id="userData"></div> <!-- This is where user data will be displayed -->
+
+  <button id="logoutBtn" class="btn btn-secondary">
+    <span class="text text-1">Logout</span>
+  </button>
+
+  <script>
+    async function getUserData() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("User token not found");
+        }
+        
+        const response = await fetch("http://localhost:1337/api/users/me", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        const userData = await response.json();
+        console.log("User Data:", userData);
+
+        const userDataElement = document.getElementById("userData");
+        userDataElement.innerHTML = `
+        <p>Id: ${userData.id}</p>
+          <p>Username: ${userData.username}</p>
+          <p>Email: ${userData.email}</p>
+          <p>CreatedAt: ${userData.createdAt}</p>
+        `;
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      logoutBtn.addEventListener("click", function () {
+        const confirmation = confirm("Are you sure you want to logout ?");
+        if (confirmation) {
+          localStorage.removeItem("token");
+          window.location.href = "index.html";
+        }
+      });
+
+      getUserData();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You</title>
+  <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js"></script>
+  <!-- Reset styles -->
+  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+  <!-- Google Fonts Muli -->
+  <link href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="thankyou.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/mylogo.png">
+</head>
+<body>
+  <section class="wrapper">
+    <div class="container">
+      <div class="img__container">
+        <img src="" alt="" class="img" />
+      </div>
+      <div class="content">
+        <h2 class="subtitle">GET HYPE</h2>
+        <h1 class="title">Thank you for the subscription</h1>
+        <p id="countdown"> back to home page  <span id="timer">5</span> seconds...</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Countdown timer
+    var timeLeft = 5;
+    var timerElement = document.getElementById('timer');
+    var countdownInterval = setInterval(function() {
+      timeLeft--;
+      timerElement.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        window.location.href = "index.html";
+      }
+    }, 1000); // Update timer every second
+  </script>
+</body>
+</html>

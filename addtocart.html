@@ -1,0 +1,336 @@
+<!-- addtocart.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/mylogo.png">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-heading {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+     <!-- Additional CSS Files -->
+     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+     <link rel="stylesheet" href="assets/css/templatemo-hexashop.css">
+     <link rel="stylesheet" href="assets/css/owl-carousel.css">
+     <link rel="stylesheet" href="assets/css/lightbox.css">
+</head>
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <!-- ***** Logo Start ***** -->
+          <a href="index.html" class="logo">
+            <img
+              src="assets/images/mylogo.png"
+              class="mylogo"
+              style="width: 50px"
+            />
+          </a>
+          <!-- ***** Logo End ***** -->
+          <!-- ***** Menu Start ***** -->
+          <ul class="nav">
+            <li class="scroll-to-section">
+              <a href="index.html">Home</a>
+            </li>
+            <li><a href="products.html">Product</a></li>
+            <li class="submenu">
+              <a href="javascript:;">Menu</a>
+              <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li class="scroll-to-section">
+                  <a href="#explore">Explore</a>
+                </li>
+              </ul>
+            </li>
+            
+            <li><a href="addtocart.html">MyCart</a></li>
+            <li class="scroll-to-section" id="loginListItem">
+              <a href="login.html">Login</a>
+            </li>
+            <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                const userToken = localStorage.getItem("userToken");
+                if (userToken) {
+                  const loginListItem =
+                    document.getElementById("loginListItem");
+                  loginListItem.innerHTML = `<a href="profile.html">My Profile</a>`;
+                  loginListItem.href = "profile.html";
+                }
+              });
+            </script>
+          </ul>
+          <a class="menu-trigger">
+            <span>Menu</span>
+          </a>
+          <!-- ***** Menu End ***** -->
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<body>
+    <section class="section" id="cartDetail">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Shopping Cart</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <!-- Product details will be displayed here -->
+                </tbody>
+            </table>
+        </div>
+        <div style="text-align: right; margin-right: 10%;">
+        <button type="button" style="background-color: rgb(10, 10, 10); border: none; color: blck; height: 50px;">
+          <a href="checkout.html">
+            Checkout
+          </a>
+        </button>
+      </div>
+    </section>
+
+    <!-- JavaScript code -->
+    <script>
+        function fetchProductDetails(productId) {
+            return fetch(`http://localhost:1337/api/products/${productId}?populate=*`)
+                .then((res) => res.json())
+                .then((data) => {
+                    return data.data.attributes;
+                })
+                .catch((error) => {
+                    console.error("Error fetching product details:", error);
+                });
+        }
+
+        function displayCartProducts() {
+            const productTableBody = document.getElementById("productTableBody");
+
+            productTableBody.innerHTML = "";
+
+            let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+            cartItems.forEach((item) => {
+                const productId = item.productId;
+                fetchProductDetails(productId)
+                    .then((product) => {
+                        const row = document.createElement("tr");
+
+                        // Image column
+                        const imageCell = document.createElement("td");
+                        const image = document.createElement("img");
+                        image.src = `http://localhost:1337${product.image.data[0].attributes.url}`;
+                        image.alt = product.name; // Set image alt text
+                        image.className = "img-fluid";
+                        image.style.height = "100px";
+                        image.style.width = "100px"
+                        imageCell.appendChild(image);
+                        row.appendChild(imageCell);
+
+                        // Name column
+                        const nameCell = document.createElement("td");
+                        nameCell.textContent = product.name; // Set product name
+                        row.appendChild(nameCell);
+
+                        // Size column
+                        const sizeCell = document.createElement("td");
+                        sizeCell.textContent = product.size; // Set product size
+                        row.appendChild(sizeCell);
+
+                        // Price column
+                        const priceCell = document.createElement("td");
+                        priceCell.textContent = `₹${product.price}`; // Set product price
+                        row.appendChild(priceCell);
+
+                        const actionCell = document.createElement("td");
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "Delete";
+                        deleteButton.addEventListener("click", () => deleteProduct(productId)); // Pass product deleteProduct function
+                        deleteButton.style.backgroundColor = "red";   
+                        deleteButton.style.color = "white";
+                        deleteButton.style.border = "none";
+                        deleteButton.style.height = "50px";
+                        deleteButton.style.width = "100px";                     
+                        actionCell.appendChild(deleteButton);
+                        row.appendChild(actionCell);
+                        productTableBody.appendChild(row);
+                    });
+            });
+        }
+        function deleteProduct(productId) { 
+            let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+            cartItems = cartItems.filter(item => item.productId !== productId);
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            displayCartProducts();
+        }
+        displayCartProducts();
+    </script>
+</body>
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="first-item">
+          <div class="logo">
+            <img
+              src="assets/images/mylogo.png"
+              alt="hexashop ecommerce templatemo" class="mylogo"/>
+          </div>
+          <ul>
+            <li>
+              <a href="#"> India - Gujarat, Valsad (396001) </a>
+            </li>
+            <li><a href="#">gethype0627@gmail.com</a></li>
+            <li><a href="#">6353658066</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <h4>Shopping &amp; Categories</h4>
+        <ul>
+          <li><a href="products.html">Summer's Shopping</a></li>
+          <li><a href="products.html">Winter's Shopping</a></li>
+          
+      </div>
+      <div class="col-lg-3">
+        <h4>Useful Links</h4>
+        <ul>
+          <li><a href="#">Homepage</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h4>Help &amp; Information</h4>
+        <ul>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">FAQ's</a></li>
+          <li><a href="#">Shipping</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-12">
+        <div class="under-footer">
+          <p>
+            Copyright © 2024 GET HYPE Co., Ltd. All Rights Reserved.
+
+            <br />Design:
+            <a
+              href="#"
+              target="_parent"
+              >GET HYPE</a>
+          </p>
+          <ul>
+            <li>
+              <a href="#"><i class="fa fa-pinterest"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-instagram"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-twitter"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- jQuery -->
+<script src="assets/js/jquery-2.1.0.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="assets/js/popper.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!-- Plugins -->
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/accordions.js"></script>
+<script src="assets/js/datepicker.js"></script>
+<script src="assets/js/scrollreveal.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/imgfix.min.js"></script>
+<script src="assets/js/slick.js"></script>
+<script src="assets/js/lightbox.js"></script>
+<script src="assets/js/isotope.js"></script>
+
+<!-- Global Init -->
+<script src="assets/js/custom.js"></script>
+
+<script>
+  $(function () {
+    var selectedClass = "";
+    $("p").click(function () {
+      selectedClass = $(this).attr("data-rel");
+      $("#portfolio").fadeTo(50, 0.1);
+      $("#portfolio div")
+        .not("." + selectedClass)
+        .fadeOut();
+      setTimeout(function () {
+        $("." + selectedClass).fadeIn();
+        $("#portfolio").fadeTo(50, 1);
+      }, 500);
+    });
+  });
+</script>
+</body>
+</html>
+</html>

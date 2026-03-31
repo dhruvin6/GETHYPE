@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/mylogo.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+      .container {
+        width: 100%;
+        height: 100vh;
+        /* background-image: url('Cover.png'); */
+        background-color: white;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+      }
+
+      .form-box {
+        width: 90%;
+        max-width: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .form-box:hover {
+        cursor: pointer;
+      }
+
+      .input-field {
+        font-size: larger;
+        margin-top: 5px;
+        background: #eaeaea;
+        margin: 15px 0;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        max-height: 65px;
+        transition: max-height 0.5s;
+        overflow: hidden;
+      }
+
+      .input-field i {
+        margin-left: 15px;
+        color: #999;
+      }
+
+      input {
+        width: calc(100% - 40px);
+        background: transparent;
+        border: 0;
+        outline: 0;
+        padding: 18px 15px;
+      }
+
+      .btn-field button.disable {
+        background: #eaeaea;
+        color: #555;
+      }
+
+      .form-box h1 {
+        font-size: 30px;
+        margin-bottom: 50px;
+        color: #3c00a0;
+        position: relative;
+        left: 33%;
+      }
+
+      .form-box h1::after {
+        content: "";
+        width: 30px;
+        height: 4px;
+        border-radius: 3px;
+        background: #3c00a0;
+        position: absolute;
+        bottom: -15px;
+        left: 14%;
+        transform: translate(-50%);
+      }
+
+      form p {
+        text-align: left;
+        font-size: 13px;
+        font-weight: 400;
+        left: 50%;
+      }
+
+      form p a {
+        text-decoration: none;
+        color: #3c00a0;
+      }
+
+      .btn-field {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      .btn-field button {
+        flex-basis: 35%;
+        background: #3c00a0;
+        color: #fff;
+        height: 40px;
+        border-radius: 20px;
+        border: 0;
+        outline: 0;
+        cursor: pointer;
+        transition: background 0.5s;
+        margin-top: 15px;
+      }
+    </style>
+    <title>GET HYPE - Sign Up</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="form-box">
+        <h1 id="title">Sign Up</h1>
+        <form>
+          <div class="input-group">
+            <div class="input-field" id="nameField">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              <input type="text" id="username" placeholder="Username" />
+            </div>
+            <div class="input-field">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <input type="email" id="email" placeholder="Email" />
+            </div>
+            <div class="input-field">
+              <i class="fa fa-lock" aria-hidden="true"></i>
+              <input type="password" id="password" placeholder="Password" />
+            </div>
+            <p>
+              Already Have an Account? <a href="login.html"> Click Here </a>
+            </p>
+          </div>
+          <div class="btn-field">
+            <button type="button" id="signupbtn" onclick="handleSubmit()">
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      if (localStorage.getItem('token')) {
+          window.location.href = "signsuccess.html";
+        }
+      async function postJSON(data) {
+        try {
+          const response = await fetch("http://localhost:1337/api/auth/local/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+    
+          const result = await response.json();
+          console.log("Success:", result);
+          
+          // alert("Sign Up Successfully")
+          
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    
+      function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+    
+      function handleSubmit() {
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+    
+        if (username === '' || email === '' || password === '') {
+          alert("Please fill out all fields.");
+          return;
+        }
+    
+        if (!validateEmail(email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+    
+        const data = { username, email, password };
+        postJSON(data);
+    
+        // Redirect to login page after successful signup
+        alert("sign up Successfully");
+        window.location.href = "signsuccess.html";
+      }
+    </script>
+  </body>
+</html>

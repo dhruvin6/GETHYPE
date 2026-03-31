@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+    <link rel="stylesheet" href="assets/css/templatemo-hexashop.css" />
+    <link rel="stylesheet" href="assets/css/owl-carousel.css" />
+    <link rel="stylesheet" href="assets/css/lightbox.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/mylogo.png">
+    <style>
+        .mylogo {
+            height: 50px;
+        }
+        .col-lg-6 {
+  width: 50%; /* Adjust width as needed */
+  margin: 0 auto; /* Center the form horizontally */
+}
+
+form.table {
+  padding: 20px; /* Add padding to the form */
+  border: 1px solid #ccc; /* Add border to the form */
+  border-radius: 5px; /* Add border radius */
+}
+
+form.table span {
+  display: block; /* Display spans as blocks */
+  margin-bottom: 5px; /* Add some space between spans */
+}
+
+form.table input[type="text"],
+form.table textarea {
+  width: 100%; /* Make input fields and textarea full width */
+  padding: 10px; /* Add padding to input fields and textarea */
+  margin-bottom: 10px; /* Add some space between input fields */
+  border: 1px solid #ccc; /* Add border to input fields and textarea */
+  border-radius: 3px; /* Add border radius */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+form.table input[type="text"]:focus,
+form.table textarea:focus {
+  outline: none; /* Remove outline on focus */
+  border-color: #007bff; /* Change border color on focus */
+}
+
+form.table textarea {
+  resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+form.table input[type="submit"] {
+  background-color: #007bff; /* Set background color for submit button */
+  color: #fff; /* Set text color for submit button */
+  border: none; /* Remove border from submit button */
+  border-radius: 3px; /* Add border radius to submit button */
+  padding: 10px 20px; /* Add padding to submit button */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s; /* Add transition effect for background color change */
+}
+
+form.table input[type="submit"]:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
+    </style>
+    <!-- Razorpay Checkout script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header-area header-sticky">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <nav class="main-nav">
+                <!-- ***** Logo Start ***** -->
+                <a href="index.html" class="logo">
+                  <img src="assets/images/mylogo.png" class="mylogo" />
+                </a>
+                <!-- ***** Logo End ***** -->
+                <!-- ***** Menu Start ***** -->
+                <ul class="nav">
+                  <li class="scroll-to-section">
+                    <a href="index.html">Home</a>
+                  </li>
+                  <li><a href="products.html">Product</a></li>
+                  <li class="submenu">
+                    <a href="javascript:;">Menu</a>
+                    <ul>
+                      <li><a href="about.html">About Us</a></li>
+                      <li><a href="contact.html">Contact Us</a></li>
+                      <li class="scroll-to-section">
+                        <a href="#explore">Explore</a>
+                      </li>
+                    </ul>
+                  </li>
+                  
+                  <li><a href="addtocart.html">MyCart</a></li>
+                  <li class="scroll-to-section" id="loginListItem">
+                    <a href="login.html">Login</a>
+                  </li>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      const userToken = localStorage.getItem("userToken");
+                      if (userToken) {
+                        const loginListItem =
+                          document.getElementById("loginListItem");
+                        loginListItem.innerHTML = `<a href="profile.html">My Profile</a>`;
+                        loginListItem.href = "profile.html";
+                      }
+                    });
+                  </script>
+                </ul>
+                <a class="menu-trigger">
+                  <span>Menu</span>
+                </a>
+                <!-- ***** Menu End ***** -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+    <br />
+    <br /><br /><br /><br /><br /><br />
+    <!-- Content Section -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Customer Information Form -->
+                <form id="checkoutForm" class="table">
+                    <span> NAME : </span>
+                    <input
+                        type="text"
+                        name="Name"
+                        placeholder="Enter Your First Name"
+                        id="name"
+                    />
+                    <br />
+                    <span> EMAIL : </span>
+                    <input
+                        type="text"
+                        name="Email"
+                        placeholder="Enter Your Email Address"
+                        id="email"
+                    />
+                    <br />
+                    <span> CONTACT : </span>
+                    <input
+                        type="text"
+                        name="Contact"
+                        placeholder="Enter Your Contact"
+                        id="contact"
+                    />
+                    <br />
+                    <span> ADDRESS : </span>
+                    <textarea
+                        name="Address"
+                        placeholder="Enter Your Address"
+                        id="address"
+                    ></textarea>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <!-- Product Details -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productDetailsBody">
+                        <!-- Product details will be displayed here -->
+                    </tbody>
+                </table>
+
+                <!-- Total Price -->
+                <div style="font-weight: bold">
+                    Total Price: ₹<span id="totalPrice">0</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button
+                id="payButton"
+                style="
+                    background-color: black;
+                    color: white;
+                    border: none;
+                    height: 50px;
+                "
+            >
+                Click to Pay
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+
+    <!-- JavaScript Section -->
+    <!-- Your existing JavaScript code -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to fetch product details and display them in the checkout page
+            function fetchProductDetails(productId) {
+                return fetch(
+                    `http://localhost:1337/api/products/${productId}?populate=*`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        return data.data.attributes;
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching product details:", error);
+                    });
+            }
+            function displayProductDetails() {
+                const productDetailsBody =
+                    document.getElementById("productDetailsBody");
+                const totalPriceSpan = document.getElementById("totalPrice");
+                let totalPrice = 0;
+                let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+                productDetailsBody.innerHTML = "";
+
+                cartItems.forEach((item) => {
+                    const productId = item.productId;
+
+                    fetchProductDetails(productId).then((product) => {
+                        const row = document.createElement("tr");
+
+                        // Image column
+                        const imageCell = document.createElement("td");
+                        const image = document.createElement("img");
+                        image.src = `http://localhost:1337${product.image.data[0].attributes.url}`;
+                        image.alt = product.name; // Set image alt text
+                        image.className = "img-fluid";
+                        image.style.height = "100px";
+                        image.style.width = "100px";
+                        imageCell.appendChild(image);
+                        row.appendChild(imageCell);
+
+                        // Name column
+                        const nameCell = document.createElement("td");
+                        nameCell.textContent = product.name; // Set product name
+                        row.appendChild(nameCell);
+
+                        // Size column
+                        const sizeCell = document.createElement("td");
+                        sizeCell.textContent = product.size; // Set product size
+                        row.appendChild(sizeCell);
+
+                        // Price column
+                        const priceCell = document.createElement("td");
+                        priceCell.textContent = `₹${product.price}`; // Set product price
+                        row.appendChild(priceCell);
+
+                        // Append the row to the table
+                        productDetailsBody.appendChild(row);
+
+                        // Update total price
+                        totalPrice += product.price;
+                        totalPriceSpan.textContent = totalPrice;
+                    });
+                });
+            }
+            displayProductDetails();
+
+            const payButton = document.getElementById("payButton");
+
+            payButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default button behavior
+
+                // Collect form data
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const contact = document.getElementById("contact").value;
+                const address = document.getElementById("address").value;
+
+                // Get total price
+                const totalPrice = parseInt(document.getElementById("totalPrice").textContent);
+
+                // Post form data and price to API
+                const postData = {
+                    data: {
+                        attributes: {
+                            name: name,
+                            email: email,
+                            contact: contact,
+                            address: address,
+                            price: totalPrice,
+                        },
+                    },
+                };
+
+                fetch("http://localhost:1337/api/orders", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(postData),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Handle response as needed
+                        console.log("Order placed successfully:", data);
+                    })
+                    .catch((error) => {
+                        console.error("Error placing order:", error);
+                    });
+
+                // Initiate Razorpay payment
+                const options = {
+                    key: "rzp_test_Q7Jc4UCyAovRjR",
+                    amount: totalPrice * 100, // Amount is in currency subunits
+                    currency: "INR",
+                    // Other Razorpay options...
+                };
+                
+                const rzp = new Razorpay(options);
+                rzp.open();
+            });
+        });
+    </script>
+</body>
+<footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="first-item">
+            <div class="logo">
+              <img
+                src="assets/images/mylogo.png"
+                alt="" class="mylogo"/>
+            </div>
+            <ul>
+              <li>
+                <a href="#"> India - Gujarat, Valsad (396001) </a>
+              </li>
+              <li><a href="#">gethype0627@gmail.com</a></li>
+              <li><a href="#">010-020-0340</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <h4>Shopping &amp; Categories</h4>
+          <ul>
+            <li><a href="products.html">Summer's Shopping</a></li>
+            <li><a href="products.html">Winter's Shopping</a></li>
+            
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Homepage</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4>Help &amp; Information</h4>
+          <ul>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">FAQ's</a></li>
+            <li><a href="#">Shipping</a></li>
+            
+          </ul>
+        </div>
+        <div class="col-lg-12">
+          <div class="under-footer">
+            <p>
+              Copyright © 2024 GET HYPE Co., Ltd. All Rights Reserved.
+
+              <br />Design:
+              <a
+                href="#"
+                target="_parent"
+                >GET HYPE</a>
+            </p>
+            <ul>
+              <li>
+                <a href="#"><i class="fa fa-pinterest"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="assets/js/jquery-2.1.0.min.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="assets/js/popper.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+
+  <!-- Plugins -->
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/accordions.js"></script>
+  <script src="assets/js/datepicker.js"></script>
+  <script src="assets/js/scrollreveal.min.js"></script>
+  <script src="assets/js/waypoints.min.js"></script>
+  <script src="assets/js/jquery.counterup.min.js"></script>
+  <script src="assets/js/imgfix.min.js"></script>
+  <script src="assets/js/slick.js"></script>
+  <script src="assets/js/lightbox.js"></script>
+  <script src="assets/js/isotope.js"></script>
+
+  <!-- Global Init -->
+  <script src="assets/js/custom.js"></script>
+
+  <script>
+    $(function () {
+      var selectedClass = "";
+      $("p").click(function () {
+        selectedClass = $(this).attr("data-rel");
+        $("#portfolio").fadeTo(50, 0.1);
+        $("#portfolio div")
+          .not("." + selectedClass)
+          .fadeOut();
+        setTimeout(function () {
+          $("." + selectedClass).fadeIn();
+          $("#portfolio").fadeTo(50, 1);
+        }, 500);
+      });
+    });
+  </script>
+</body>
+</html>
